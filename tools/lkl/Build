@@ -1,5 +1,4 @@
 CFLAGS_lklfuse.o += -D_FILE_OFFSET_BITS=64
 
-cptofs-$(LKL_HOST_CONFIG_ARCHIVE) += cptofs.o
 lklfuse-$(LKL_HOST_CONFIG_FUSE) += lklfuse.o
 
