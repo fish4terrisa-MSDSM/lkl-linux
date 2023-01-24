@@ -28,6 +28,7 @@ do_steps: &do_steps
         cd ~/project
         chmod a+x /root/project/scripts/setup-android-sdk.sh
         ~/project/scripts/setup-android-sdk.sh
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ld
   - run:
       name: build lkl
       command: |
@@ -35,7 +36,7 @@ do_steps: &do_steps
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
         #source /etc/profile.d/jre.sh
         cd ~/project
-        cd ~/project/tools/lkl && make ${MKARG} CROSS_COMPILE="aarch64-linux-android30-"
+        cd ~/project/tools/lkl && make CC=clang ${MKARG} CROSS_COMPILE="aarch64-linux-android30-"
         zip -r ~/lkl.zip ~/project/tools/lkl
   - store_artifacts:
       path: ~/lkl.zip
