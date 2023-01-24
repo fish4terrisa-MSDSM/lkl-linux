@@ -14,7 +14,7 @@ do_steps: &do_steps
         pacman -Syy;
         pacman -S openssh --noconfirm;
         pacman -S git make wget unzip zip pandoc --noconfirm
-        pacman -S jdk11-openjdk base-devel --noconfirm
+        pacman -S jdk11-openjdk base-devel bc bison flex --noconfirm
         #source /etc/profile.d/jre.sh
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
