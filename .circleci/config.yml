@@ -28,7 +28,11 @@ do_steps: &do_steps
         cd ~/project
         chmod a+x /root/project/scripts/setup-android-sdk.sh
         ~/project/scripts/setup-android-sdk.sh
-        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ld
+        cp /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ld
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/gcc
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/g++
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-gcc
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-g++
   - run:
       name: build lkl
       command: |
@@ -47,6 +51,7 @@ jobs:
      - image: archlinux:latest
    environment:
      CROSS_COMPILE: "aarch64-linux-android30-"
+     LKL_ANDROID_TEST: 1
    <<: *do_steps
 workflows:
   version: 2
