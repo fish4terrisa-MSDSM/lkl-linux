@@ -14,7 +14,7 @@ do_steps: &do_steps
         pacman -Syy;
         pacman -S openssh --noconfirm;
         pacman -S git make wget unzip zip pandoc --noconfirm
-        pacman -S jdk11-openjdk --noconfirm
+        pacman -S jdk11-openjdk base-devel --noconfirm
         #source /etc/profile.d/jre.sh
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
@@ -29,8 +29,6 @@ do_steps: &do_steps
         chmod a+x /root/project/scripts/setup-android-sdk.sh
         ~/project/scripts/setup-android-sdk.sh
         cp /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ld
-        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/gcc
-        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/g++
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-gcc
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-g++
   - run:
