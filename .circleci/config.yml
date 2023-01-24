@@ -30,6 +30,7 @@ do_steps: &do_steps
         ~/project/scripts/setup-android-sdk.sh
         cp /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/ld /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ld
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-ar
+        ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-nm
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-objcopy
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-gcc
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-g++
