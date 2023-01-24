@@ -1,6 +1,4 @@
 POSIX_HOSTS=elf64 elf32
-KASAN_HOSTS=elf64-x86-64
-NT_HOSTS=pe
 
 define set_autoconf_var
   $(shell echo "#define LKL_HOST_CONFIG_$(1) $(2)" \
@@ -29,14 +27,6 @@ endef
 
 define android_host
   $(call set_autoconf_var,ANDROID,y)
-endef
-
-define bsd_host
-  $(call set_autoconf_var,BSD,y)
-endef
-
-define arm_host
-  $(call set_autoconf_var,ARM,y)
 endef
 
 define aarch64_host
@@ -84,79 +74,18 @@ define posix_host
   $(if $(strip $(call find_include,jsmn.h)),$(call set_autoconf_var,JSMN,y))
 endef
 
-define nt64_host
-  $(call set_autoconf_var,NEEDS_LARGP,y)
-  $(call set_autoconf_var,VIRTIO_NET,y)
-  $(call set_autoconf_var,NT64,y)
-  CFLAGS += -Wl,--enable-auto-image-base -Wl,--image-base -Wl,0x10000000 \
-	 -Wl,--out-implib=$(OUTPUT)liblkl.dll.a -Wl,--export-all-symbols \
-	 -Wl,--enable-auto-import
-  LDFLAGS +=-Wl,--image-base -Wl,0x10000000 -Wl,--enable-auto-image-base \
-	   -Wl,--out-implib=$(OUTPUT)liblkl.dll.a -Wl,--export-all-symbols \
-	   -Wl,--enable-auto-import -s
-endef
-
-define nt_host
-  $(call set_autoconf_var,NT,y)
-  KOPT = "KALLSYMS_EXTRA_PASS=1"
-  KOPT += "HOSTCFLAGS=-Wno-char-subscripts"
-  KOPT += "HOSTLDFLAGS=-s"
-  LDLIBS += -lws2_32
-  EXESUF := .exe
-  SOSUF := .dll
-  CFLAGS += -Iinclude/mingw32
-  $(if $(filter $(1),pe-x86-64),$(call nt64_host))
-endef
-
-define s390_host
-  $(call set_kernel_config_h,LKL_CONFIG_ENDIAN,1)
-  $(call set_kernel_config,BIG_ENDIAN,y)
-endef
-
 define 64bit_host
   $(call set_kernel_config_h,LKL_CONFIG_64BIT,1)
   $(call set_kernel_config,64BIT,y)
 endef
 
-define kasan_x86_64
-  $(call set_autoconf_var,KASAN_SHADOW_OFFSET,0x0000200000000000)
-  $(call set_kernel_config,KASAN_SHADOW_OFFSET,0x0000200000000000)
-  $(call set_autoconf_var,KASAN_SHADOW_SIZE,0x0000100000000000)
-  $(call set_kernel_config,KASAN_SHADOW_SIZE,0x0000100000000000)
-endef
-
-define kasan_test_enable
-  $(call set_autoconf_var,KASAN_TEST,y)
-  $(call set_kernel_config,KUNIT,y)
-  $(call set_kernel_config,BUILTIN_CMDLINE,\"kunit.filter_glob=\")
-  $(call set_kernel_config,KASAN_KUNIT_TEST,y)
-endef
-
-define kasan_enable
-  $(call set_autoconf_var,KASAN,y)
-  $(call set_kernel_config,KASAN,y)
-  # default is 20 which should be 1MB but observed 8MB of reserved
-  # memory - half of what we use
-  $(call set_kernel_config,STACK_HASH_ORDER,12)
-  $(if $(filter $(1),elf64-x86-64),$(call kasan_x86_64))
-  $(if $(filter yes,$(kasan_test)), $(call kasan_test_enable))
-endef
-
 define do_autoconf
-  export CROSS_COMPILE := $(CROSS_COMPILE)
-  export CC := $(CROSS_COMPILE)gcc
+  export CROSS_COMPLIE := aarch64-linux-android30-
+  export CC := $(CROSS_COMPILE)clang
   export LD := $(CROSS_COMPILE)ld
   export AR := $(CROSS_COMPILE)ar
   $(eval LD := $(CROSS_COMPILE)ld)
-  $(eval CC := $(CROSS_COMPILE)gcc)
-  $(eval LD_FMT := $(shell $(LD) -r -print-output-format))
-  $(eval EXEC_FMT := $(shell echo $(LD_FMT) | cut -d "-" -f1))
-  $(call set_kernel_config,OUTPUT_FORMAT,\"$(LD_FMT)\")
-  $(if $(or $(filter $(EXEC_FMT),elf64),$(filter $(LD_FMT),pe-x86-64)),$(call 64bit_host))
-  $(if $(filter $(EXEC_FMT),elf64-s390),$(call s390_host))
-  $(if $(filter $(EXEC_FMT),$(POSIX_HOSTS)),$(call posix_host,$(LD_FMT)))
-  $(if $(filter $(EXEC_FMT),$(NT_HOSTS)),$(call nt_host,$(LD_FMT)))
-  $(if $(and $(filter yes,$(kasan)),$(filter $(LD_FMT),$(KASAN_HOSTS))),$(call kasan_enable,$(LD_FMT)))
+  $(eval CC := $(CROSS_COMPILE)clang)
 endef
 
 export do_autoconf
