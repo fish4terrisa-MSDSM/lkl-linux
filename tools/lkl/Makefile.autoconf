@@ -86,6 +86,11 @@ define do_autoconf
   export AR := $(CROSS_COMPILE)ar
   $(eval LD := $(CROSS_COMPILE)ld)
   $(eval CC := $(CROSS_COMPILE)clang)
+  $(eval LD_FMT := elf64-littleaarch64)
+  $(eval EXEC_FMT := $(shell echo $(LD_FMT) | cut -d "-" -f1))
+  $(call set_kernel_config,OUTPUT_FORMAT,\"$(LD_FMT)\")
+  $(call 64bit_host))
+  $(if $(filter $(EXEC_FMT),$(POSIX_HOSTS)),$(call posix_host,$(LD_FMT)))
 endef
 
 export do_autoconf
