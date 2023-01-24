@@ -12,11 +12,6 @@ LDLIBS_lib/hijack/liblkl-hijack-$(LKL_HOST_CONFIG_I386) += -lc_nonshared
 progs-$(LKL_HOST_CONFIG_FUSE) += lklfuse
 LDLIBS_lklfuse-y := -lfuse
 
-
-progs-$(LKL_HOST_CONFIG_ARCHIVE) += cptofs
-LDLIBS_cptofs-y := -larchive
-LDLIBS_cptofs-$(LKL_HOST_CONFIG_NEEDS_LARGP) += -largp
-
 progs-y += tests/boot
 progs-y += tests/disk
 progs-y += tests/disk-vfio-pci
