@@ -18,7 +18,7 @@ do_steps: &do_steps
         #source /etc/profile.d/jre.sh
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
         ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-        git clone $CIRCLE_REPOSITORY_URL ~/project
+        git clone --depth=1 --branch=master $CIRCLE_REPOSITORY_URL ~/project
         git reset --hard $CIRCLE_SHA1
   - run:
       name: get sdk & ndk
@@ -26,6 +26,7 @@ do_steps: &do_steps
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
         #source /etc/profile.d/jre.sh
         cd ~/project
+        chmod a+x /root/project/scripts/setup-android-sdk.sh
         ~/project/scripts/setup-android-sdk.sh
   - run:
       name: build lkl
