@@ -36,6 +36,8 @@ do_steps: &do_steps
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-g++
         echo 'INPUT(-lc)' >> /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/librt.so
         echo 'INPUT(-lc)' >> /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/libpthread.so
+        chmod a+x /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/librt.so
+        chmod a+x /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/libpthread.so
   - run:
       name: build lkl
       command: |
