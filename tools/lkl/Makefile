@@ -98,7 +98,7 @@ $(OUTPUT)%$(EXESUF): $(OUTPUT)%-in.o $(OUTPUT)liblkl.a
 
 # rule to build objects
 $(OUTPUT)%-in.o: $(OUTPUT)lib/lkl.o FORCE
-	$(Q)$(MAKE) -f $(srctree)/tools/build/Makefile.build dir=$(patsubst %/,%,$(dir $*)) obj=$(notdir $*)
+	$(Q)$(MAKE) -f $(srctree)/tools/build/Makefile.build CC=clang CROSS_COMPILE="aarch64-linux-android30-" dir=$(patsubst %/,%,$(dir $*)) obj=$(notdir $*)
 
 
 $(OUTPUT)cpfromfs$(EXESUF): cptofs$(EXESUF)
