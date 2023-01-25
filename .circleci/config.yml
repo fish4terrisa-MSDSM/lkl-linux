@@ -34,6 +34,8 @@ do_steps: &do_steps
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objcopy /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-objcopy
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-gcc
         ln -s /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-clang++ /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android30-g++
+        echo 'INPUT(-lc)' >> /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/librt.so
+        echo 'INPUT(-lc)' >> /root/lib/android-ndk-r25b/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/libpthread.so
   - run:
       name: build lkl
       command: |
@@ -46,9 +48,6 @@ do_steps: &do_steps
   - store_artifacts:
       path: ~/lkl.zip
       destination: lkl.zip
-  - store_artifacts:
-      path: ~/project/vmlinux
-      destination: vmlinux
 jobs:
   android-aarch64:
    docker:
